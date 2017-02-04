@@ -15,6 +15,7 @@
   "devDependencies": {
     "browser-run": "^3.3.0",
     "browserify": "^13.1.1",
+    "cross-env": "^3.1.4",
     "left-pad": "^1.1.3",
     "request": "^2.69.0",
     "reuters-21578-json": "^0.0.8",
@@ -44,10 +45,10 @@
     "node": ">3"
   },
   "scripts": {
-    "test": "rm -rf test/sandbox && mkdir test/sandbox && date && tape test/*test.js && npm run test-cli && npm run test-browser && standard --fix",
-    "test-cli": "./bin/norch -p 9090 -i test/sandbox/norch-cli & sleep 5s && bats test/test.bats && kill $!",
-    "test-browser": "./bin/norch -i test/sandbox/browser-test -p 9999 & tape test/browser/runtest.js && kill $!",
-    "start": "./bin/norch"
+    "test": "cross-env rm -rf test/sandbox && mkdir test/sandbox && date && tape test/*test.js && npm run test-cli && npm run test-browser && standard --fix",
+    "test-cli": "node ./bin/norch -p 9090 -i test/sandbox/norch-cli & sleep 5s && bats test/test.bats && kill $!",
+    "test-browser": "node ./bin/norch -i test/sandbox/browser-test -p 9999 & tape test/browser/runtest.js && kill $!",
+    "start": "node ./bin/norch"
   },
   "license": "MIT"
 }
