@@ -2,11 +2,11 @@
 
 ```bash
  $ norch --help
- 
+
    Usage: norch [options]
- 
+
    Options:
- 
+
     -h, --help                   output usage information
     -V, --version                output the version number
     -p, --port <port>            specify the port, defaults to 3030
@@ -29,12 +29,14 @@
 | [`/docCount`](#doccount) | `GET` | object | Counts total document in index |
 | [`/flush`](#flush) | `DELETE` | status code | Remove all documents from index |
 | [`/get`](#get) | `GET` | stream | Get documents by ID |
+| [`/getManifest`](#getManifest) | `GET` | stream | Get manifest by URL |
 | [`/import`](#import) | `POST` | file | Import/merge an existing index into this one |
 | [`/latestSnapshot`](#latestsnapshot) | `GET` | file | Download the latest index snapshot |
 | [`/listSnapshots`](#listsnapshots) | `GET` | file | See list of snapshots |
 | [`/match`](#match) | `GET` | stream | Match by linguistic similarity- autosuggest, autocomplete |
 | [`/search`](#search) | `GET` | stream | Search in the index |
 | [`/totalHits`](#totalhits) | `GET` | object | Show number of hits that a given query returns |
+| [`/sms`](#sms) | `POST` | object | Send text message via Twilio |
 
 # API
 
@@ -118,6 +120,18 @@ Example:
 curl -X GET http://localhost:3030/get -G --data-urlencode ids@- <<REQUEST_BODY
 ["3", "7"]
 REQUEST_BODY
+```
+
+### /getManifest
+
+Get manifest by URL
+
+Query parameter: **url** A URL of a web page
+
+Example:
+
+```bash
+curl -X GET 'http://localhost:3030/getManifest' -H "Content-Type: application/json" -d '{"url": "https://webvr.rocks/"}'
 ```
 
 ### /latestSnapshot
@@ -235,6 +249,16 @@ under `/latestSnapshot`
 
 Import or merge an existing snapshot into this index
 
+### /sms
+
+Send text message via Twilio.
+
+```bash
+curl -X POST -H "Content-Type: application/json" -d '{"to": "8008675309", "body": "Hello, world!"}' http://localhost:3030/sms
+```
+
+API: https://github.com/fergiemcdowall/search-index/blob/master/doc/API.md#defaultpipeline
+
 ## DELETE
 
 ### /delete
@@ -247,7 +271,7 @@ Example:
 
 ```bash
 curl -X DELETE http://localhost:3030/delete -G --data-urlencode ids@- <<REQUEST_BODY
-["7", "1"]      
+["7", "1"]
 REQUEST_BODY
 ```
 
